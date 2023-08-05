@@ -1,0 +1,50 @@
+class Shortest {
+    public static boolean check(int[] v, int n) {
+        for (int i = 1; i <= n; i++) {
+            if (v[i] != 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number of nodes: ");
+        int n = sc.nextInt();
+        TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+        int visited[] = new int[n + 1];
+        int graph[][] = new int[n + 1][n + 1];
+        int d[] = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                graph[i][j] = sc.nextInt();
+            }
+            
+        }
+        for(int k=1;k<=n;k++) {
+        	visited[k] = 0;    //initializing all the visited vertex to 0
+            d[k] = 999;      // initializing all the distance taken to 999
+        }
+        System.out.println("Enter the source node: ");
+        int source = sc.nextInt();
+        d[source] = 0;  // first source vetext should be 0
+        int u = source;      // u is neighbor 
+        int v;
+        do {
+            for (v = 1; v <= n; v++) {
+                if (graph[u][v] != 999 && graph[u][v] != 0 && visited[v] == 0) {
+                    d[v] = Math.min(d[v], d[u] + graph[u][v]);   // Direct we have to find the min(using min method)
+                    map.put(d[v], v);
+                }
+            }
+            u = map.firstEntry().getValue();
+            visited[u] = 1;
+            map.clear();
+        } while (check(visited, n));
+        for (int i = 1; i <= n; i++) {
+            System.out.println("Shortest distance from node " + source + " to node " + i + " is " + d[i]);
+        }
+
+    }
+}
