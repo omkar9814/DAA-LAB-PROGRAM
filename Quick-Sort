@@ -1,0 +1,93 @@
+// class of main quickSort.
+public class quickSort {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n;
+        long time, end, start;
+        Quick obj = new Quick();                     // object is creatd of another class
+        System.out.println("Enter the number: ");
+        n = sc.nextInt();
+        obj.createArray(n, 1);
+        System.out.println("The array is: ");
+        obj.printArray();
+        start = System.nanoTime();
+        obj.quickSort(0, n - 1);
+        end = System.nanoTime();
+        System.out.println("\nSorted array is: ");
+        obj.printArray();
+        time = end - start;
+        System.out.println("\nTime for sorting is: " + time + " ns");
+    }
+}
+// Another class of QUick
+import java.util.Random;
+
+class Quick {
+    int n;
+    int[] arr;
+
+    public void createArray(int n, int ch) {
+        this.n = n;
+        arr = new int[n];
+        if (ch == 0) {
+            for (int i = 0; i < n; i++) {
+                arr[i] = i;
+            }
+        } else if (ch == 1) {
+            for (int i = 0; i < n; i++) {
+                arr[i] = n - i;
+            }
+        } else {
+            Random rand = new Random();
+            for (int i = 0; i < n; i++) {
+                arr[i] = rand.nextInt(10000000);
+            }
+        }
+    }
+
+    public void quickSort(int low, int high) {
+        if (low < high) {
+            int s = partition(arr, low, high);
+            quickSort(low, s - 1);
+            quickSort(s + 1, high);
+        }
+    }
+
+    public int partition(int[] arr, int low, int high) {
+        int pivot = arr[low];
+        int i = low + 1;  // Start from the next element
+        int j = high;
+
+        while (i <=j) {  // Use i <= j instead of i < j
+            while (i<=j && arr[i] <= pivot) {  // Use i <= j here as well
+                i++;
+            }
+            while (i<=j && arr[j] > pivot) {  // Use i <= j here as well
+                j--;
+            }
+            if (i <= j) {  // Use i <= j here as well
+                swap(i, j);
+               i++;  // Increment i and decrement j
+               j--;
+            }
+        }
+        swap(low, j);
+        return j;
+    }
+
+    public void swap(int low, int high) {
+        int temp;
+        temp = arr[low];
+        arr[low] = arr[high];
+        arr[high] = temp;
+    }
+
+    public void printArray() {
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+}
+
+
