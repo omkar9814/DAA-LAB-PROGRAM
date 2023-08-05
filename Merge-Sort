@@ -1,0 +1,89 @@
+import java.util.Scanner;
+import java.util.Random;
+
+class mergesort {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n;
+        System.out.println("enter the number: ");
+        n=sc.nextInt();
+        System.out.println("Enter the choice: ");
+        int choice=sc.nextInt();
+        Qui obj=new Qui();
+        obj.createarray(n,choice);
+        System.out.println("the array is ");
+        obj.print();
+        obj.mergesort(0,n-1);
+        System.out.println("the sorted array is: ");
+        obj.print();
+        
+    }
+}
+class Qui{
+    int n;
+    int arr[];
+    public void createarray(int n,int ch){
+        this.n = n;
+        arr = new int[n];
+        if(ch == 0){
+            for(int i=0;i<n;i++){
+                arr[i]=i;
+            }
+        }
+        else if(ch == 1){
+            for(int i=0;i<n;i++){
+                arr[i]=n-i;
+            }
+        }
+        else{
+            Random rand = new Random();
+            for(int i=0;i<n;i++){
+                arr[i]=rand.nextInt(10000);
+            }
+        }
+    }
+    public void mergesort(int low,int high){
+        if(low<high){
+        int mid=(low+high)/2;
+        mergesort(low,mid);
+        mergesort(mid+1,high);
+        merge(low,mid,high);
+        }
+    }
+    public void merge(int low, int mid,int high){
+        int i=low;
+        int j=mid+1;
+        int k=low;
+        int b[]=new int[n];
+       while(i<=mid && j<=high){
+           if(arr[i]<arr[j]){
+               b[k]=arr[i];
+               i++;
+           }
+           else{
+               b[k] = arr[j];
+               j++;
+           }
+           k++;
+       }
+       while(i<=mid){
+           b[k]=arr[i];
+           i++;
+           k++;
+       }
+       while(j<=high){
+           b[k]=arr[j];
+           j++;
+           k++;
+       }
+       for (k = low; k <= high; k++) {
+    arr[k] = b[k];
+}
+    }
+    public void print(){
+        for(int i=0;i<n;i++){
+            System.out.print(arr[i]+" ");
+        }
+        System.out.println(" ");
+    }
+}
